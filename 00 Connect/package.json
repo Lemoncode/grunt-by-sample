@@ -1,0 +1,15 @@
+{
+  "name": "00connect",
+  "version": "1.0.0",
+  "description": "Install and configure grunt to start a lite dev web server.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "David Atencia <david.atencia@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-connect": "^1.0.2"
+  }
+}
