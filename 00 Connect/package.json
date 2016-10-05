@@ -1,7 +1,7 @@
 {
   "name": "00connect",
   "version": "1.0.0",
-  "description": "In this sample we are going to create a simple HTML page, then install all the grunt plumbing up and running and configure grunt\r to start a lite dev web server on request.",
+  "description": "Install and configure grunt to start a lite dev web server.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
