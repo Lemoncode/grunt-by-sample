@@ -183,4 +183,4 @@ function mySum(a, b) {
 
   You should end up seeing something like the figure below:
 
-  ![html result](../99 Resources/01 Dist/00 Result.png "01 Result.png")
+  ![html result](../99 Resources/01 Dist/01 Result.png "01 Result.png")
