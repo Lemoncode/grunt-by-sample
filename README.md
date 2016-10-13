@@ -1,4 +1,4 @@
-# Module 3 - Bundling - Grunt
+# Grunt by sample
 
 Grunt is a task runner that is already in use by many existing projects, 
 is a good idea to learn the basics about how it works.
