@@ -1,7 +1,7 @@
 # 01 Dist
 
 In this sample we are going to create a distribution folder where we are going
-to place the result of the grunt build folder, then we are to configure our
+to place the result of the grunt build folder, then we are going to configure our
 dev server to point to that distribution folder.
 
 Summary steps:
@@ -67,7 +67,7 @@ This sample takes as starting point _00 Connect_.
 - The next step is to install and configure _grunt-contrib-copy_ to copy our built files from _src_ to  _dist_ folder.
 
   ```
-  npm install grunt-contrib-clean --save-dev
+  npm install grunt-contrib-copy --save-dev
   ```
   - (I) Let's add the config for the copy plugin:
 

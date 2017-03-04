@@ -136,8 +136,8 @@ grunt web
 
 - In your project you can see dist folder
 
-![Image of dist folder and content](https:/.png)
+![Image of dist folder and content](../99 Resources/02 Prod/dist_folder.png "dist folder")
 
 - the web running
 
-![Image of web running](https:/.png)
+![Image of web running](../99 Resources/02 Prod/webrunning.png "web running")
