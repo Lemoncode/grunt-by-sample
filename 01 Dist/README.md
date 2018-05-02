@@ -45,101 +45,120 @@ This sample takes as starting point _00 Connect_.
   ```
   - (I) Let's add the config for the plugin:
 
-  ```javascript
-  ...
-  },
-  clean: ['dist']
+
+```diff
+  grunt.initConfig({
+    connect: {
+      server: {
+        options: {
+          hostname: 'localhost',
+          port: 8080,
+          keepalive: true,
+          base: 'src',
+          directory: 'src',
+          open: {
+            target: 'http://localhost:8080/index.html'
+          }
+        }
+      }
+-    },
++    },
++    clean: ['dist']
   });
-  ...
-  ```
+```
 
-  - (II) We also need to load the grunt plugin:
+- (II) We also need to load the grunt plugin:
 
-  ```javascript
-  ...
-  });
-
+```diff
+module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  ...
-  ```
++ grunt.loadNpmTasks('grunt-contrib-clean');
+```
 
 - The next step is to install and configure _grunt-contrib-copy_ to copy our built files from _src_ to  _dist_ folder.
 
-  ```
-  npm install grunt-contrib-copy --save-dev
-  ```
-  - (I) Let's add the config for the copy plugin:
+```bash
+npm install grunt-contrib-copy --save-dev
+```
+- (I) Let's add the config for the copy plugin:
 
-  ```javascript
-    ...
+```diff
     },
     clean: ['dist'],
-    copy: {
-      main: {
-        files: [
-          {
-            expand: true,
-            cwd: './src/',
-            src: ['*.js'],
-            dest: './dist'
-          },
-          {
-            src: './src/index.html',
-            dest: './dist/index.html'
-          }
-        ]
-      }
-    }
++    copy: {
++      main: {
++        files: [
++          {
++            expand: true,
++            cwd: './src/',
++            src: ['*.js'],
++            dest: './dist'
++          },
++          {
++            src: './src/index.html',
++            dest: './dist/index.html'
++          }
++        ]
++      }
++    }
   });
-  ...
-  ```
+```
 
-  - (II) We also need to tell grunt to load this plugin:
+- (II) We also need to tell grunt to load this plugin:
 
-  ```javascript
-  ...
-  });
-
-  grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  ...
-  ```
+```diff
+grunt.loadNpmTasks('grunt-contrib-connect');
+grunt.loadNpmTasks('grunt-contrib-clean');
++  grunt.loadNpmTasks('grunt-contrib-copy');
+```
 
 - Once we have the two plugins in our _gruntfile.js_ let's define a _build-dev_ task that will sequentially execute clean and then copy:
 
-```javascript
-...
-grunt.loadNpmTasks('grunt-contrib-copy');
-
-grunt.registerTask('build-dev', ['clean', 'copy']);
+```diff
 grunt.registerTask('web', ['connect']);
-grunt.registerTask('default', ['web']);
-...
++ grunt.registerTask('build-dev', ['clean', 'copy']);
 ```
 
 - It's time to update where our dev server is pointing. Let's change it to _dist_.
 
-```javascript
-...
-keepalive:true,
-base: 'dist',
-directory: 'dist',
-open: {
-...
+```diff
+  grunt.initConfig({
+    connect: {
+      server: {
+        options: {
+          hostname: 'localhost',
+          port: 8080,
+          keepalive: true,
++          base: 'dist',
++          directory: 'dist',          
+-          base: 'src',
+-          directory: 'src',
+          open: {
+            target: 'http://localhost:8080/index.html'
+          }
+        }
+      }
+    },
 ```
 
-- Now let's give a try and check if it's copying what we expected (from the command prompt)
+- Let's add a new command to our _package.json_
+
+```diff
+"scripts": {
+  "start": "grunt web",
++ "build": "grunt build-dev"  
+  "test": "echo \"Error: no test specified\" && exit 1"
+},
+```
+
+- Let's try both commands:
 
 ```
-grunt build-dev
+npm run build
 ```
 
-and check under dist the index.html file has been copied.
-
 ```
-grunt web
+npm start
 ```
 
 - It's time to play with some javascript, let's add a simple _calculator.js_ file under _src_:
