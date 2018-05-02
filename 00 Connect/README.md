@@ -54,16 +54,22 @@ file we will generated).
  </html>
  ```
 
+- Let's add initilaize a project
+
+```bash
+npm init
+```
+
 - Install `grunt-cli` globally with the next command from the command prompt.
 
  ```bash
- $ npm install -g grunt-cli
+ npm install -g grunt-cli
  ```
 
 - Install now `grunt` locally and save it as a dev dependency.
 
  ```bash
- $ npm install grunt --save-dev
+ npm install grunt --save-dev
  ```
 
  > More info about this initial setup: [Grunt getting started](http://gruntjs.com/getting-started).
@@ -73,7 +79,7 @@ is able to start a lite dev web server (we will save it into our `package.json`
 as a dev dependency).
 
  ```bash
- $ npm install grunt-contrib-connect --save-dev
+ npm install grunt-contrib-connect --save-dev
  ```
 
 - Create an empty file called `gruntfile.js`, this is the Grunt config file and
@@ -104,89 +110,88 @@ as a dev dependency).
 
     - (I) load the plugin.
 
-    ```javascript
+```diff
     module.exports = function(grunt) {
 
-      grunt.loadNpmTasks('grunt-contrib-connect');
++      grunt.loadNpmTasks('grunt-contrib-connect');
 
       grunt.initConfig({
       });
 
     };
-    ```
+```
     - (II) Configure the task.
 
-    ```javascript
-    module.exports = function(grunt) {
+```diff
+  module.exports = function(grunt) {
 
-      grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-contrib-connect');
 
-      grunt.initConfig({
-        connect: {
-          server: {
-            options: {
-              hostname: 'localhost',
-              port: 8080,
-              keepalive:true,
-              base: 'src',
-              directory: 'src',
-              open: {
-                target: 'http://localhost:8080/index.html'
-              }
-            }
-          }
-        }
-      });
+    grunt.initConfig({
++      connect: {
++        server: {
++          options: {
++            hostname: 'localhost',
++            port: 8080,
++            keepalive:true,
++            base: 'src',
++            directory: 'src',
++            open: {
++              target: 'http://localhost:8080/index.html'
++            }
++          }
++        }
++      }
+    });
 
-    };
-    ```
+  };
+```
 
     - (III) Register the task and give it a name to be able to launch it form the command prompt.
 
-    ```javascript
-    module.exports = function(grunt) {
+```diff
+  module.exports = function(grunt) {
 
-      grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-contrib-connect');
 
-      grunt.initConfig({
-        connect: {
-          server: {
-            options: {
-              hostname: 'localhost',
-              port: 8080,
-              keepalive:true,
-              base: 'src',
-              directory: 'src',
-              open: {
-                target: 'http://localhost:8080/index.html'
-              }
+    grunt.initConfig({
+      connect: {
+        server: {
+          options: {
+            hostname: 'localhost',
+            port: 8080,
+            keepalive:true,
+            base: 'src',
+            directory: 'src',
+            open: {
+              target: 'http://localhost:8080/index.html'
             }
           }
         }
-      });
+      }
+    });
 
-      grunt.registerTask('web', ['connect']);
-
-    };
-    ```
++    grunt.registerTask('web', ['connect']);
+  };
+```
 
 - It's time to check the work done, run the dev web server with the
-following command from the command prompt.
+following command from the command prompt. Let's add a tasks to our package.json
 
- ```bash
- $ grunt web
- ```
+_./package.json_
 
- ![grunt web](../99 Resources/00 Connect/grunt_web.png "grunt web")
+```diff
+"scripts": {
++ "start": "grunt web",
+  "test": "echo \"Error: no test specified\" && exit 1"
+},
+```
 
-- This task will open http://localhost:8080/index.html in your default browser automatically.
+# Appendix
 
- ![Browser Output](../99 Resources/00 Connect/browser_output.png "Browser Output")
+- We can setup as well default tasks on grunt:
 
-- Since this is something we are going to use quite often, we can set it up as
- a default task (open gruntfile.js and add the default task).
-
-  ```javascript
+```diff
   module.exports = function(grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-connect');
@@ -209,10 +214,10 @@ following command from the command prompt.
     });
 
     grunt.registerTask('web', ['connect']);
-    grunt.registerTask('default', ['web']);
++    grunt.registerTask('default', ['web']);
 
   };
-  ```
+```
 
 - We can now just run `grunt` from the command prompt to lauch the dev server, with no
 extra params.
