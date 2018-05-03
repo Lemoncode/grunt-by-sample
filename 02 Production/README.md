@@ -34,110 +34,183 @@ npm install grunt-contrib-uglify --save-dev
 ```
 
 - Let's require this plugins on our _gruntfile.js_
-```javascript
-grunt.loadNpmTasks('grunt-contrib-concat');
-grunt.loadNpmTasks('grunt-contrib-uglify');
+
+_gruntfile.js_
+
+```diff
+module.exports = function (grunt) {
+  grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-copy');
++  grunt.loadNpmTasks('grunt-contrib-concat');
++  grunt.loadNpmTasks('grunt-contrib-uglify');
 ```
 
 - Let's configure the concat task (it will create an app.min.js file on dist).
-```javascript
-grunt.initConfig({
-  ...
-  concat: {
-    dist: {
-      files: {
-       './dist/app.min.js': [
-          './src/calculator.js',
-          './src/main.js'
+
+```diff
+    copy: {
+      main: {
+        files: [
+          {
+            expand: true,
+            cwd: './src/',
+            src: ['*.js'],
+            dest: './dist'
+          },
+          {
+            src: './src/index.html',
+            dest: './dist/index.html'
+          }
         ]
-      }
-    }
-  }
+       }
+-    }
++    }
++    concat: {
++      options: {
++        separator: ';',
++      },
++      dist: {
++        src: ['./src/calculator.js', './src/main.js'],
++        dest: './dist/app.min.js',
++      }
++    },      
 ```
 
 - Let's configure the uglifiy task (it will minify the recently created app.min.js file on dist).
-```javascript
-grunt.initConfig({
-...
-uglify: {
-  build: {
-    files: [
-      {
-        './dist/app.min.js' : './dist/app.min.js'            
-      }
-    ]              
-  }        
-}
+
+```diff
+   concat: {
+     options: {
+       separator: ';',
+     },
+     dist: {
+       src: ['./src/calculator.js', './src/main.js'],
+       dest: './dist/app.min.js',
+     }
+   },      
++  uglify: {
++    build: {
++      files: [
++        {
++          './dist/app.min.js' : './dist/app.min.js'            
++        }
++      ]              
++    }        
++  }
 ```
 
 - Let's add a new task called build-prod
-```javascript
-grunt.registerTask('build-prod', ['clean', 'concat', 'uglify:build']);
+
+```diff
+  grunt.registerTask('build-dev', ['clean', 'copy']);
++  grunt.registerTask('build-prod', ['clean', 'concat', 'uglify:build']);
+```
+
+- Let's add a new task in our _package.json_
+
+_package.json_
+
+```diff
+"scripts": {
+  "start": "grunt web",
+  "build": "grunt build-dev",
++ "build:prod": "grunt build-prod",   
+  "test": "echo \"Error: no test specified\" && exit 1"
+},
 ```
 
 - Right now we can make a quick check point and ensure we only have the minified js file on our dist folder.
+
 ```
-grunt build-prod
+npm run build:prod
 ```
 
 - Still we have work todo... the HTML file on dist is gone (we are not calling the copy task), and what's worse
 there are script tags under this HTML are pointing to the non minifed versions of the javascript files. In order
 to solve this issue we are going install a new plugin.
-```
+
+```bash
 npm install grunt-processhtml --save-dev
 ```
 
-This plugins allows us to replace script tags by marking commented areas in the main HTML.
+This plugin allows us to replace script tags by marking commented areas in the main HTML.
 
 - Let's add some commented markup to the index.html file
-```html
-<!-- build:js /app.min.js -->
-<script src="./calculator.js"></script>
-<script src="./main.js"></script>  
-<!-- /build -->
+
+_index.html_
+
+```diff
+<body>
+  <h1>Hello Grunt!</h1>
+</body>
++ <!-- build:js /app.min.js -->
++  <script src="./calculator.js"></script>
++  <script src="./main.js"></script>  
++ <!-- /build -->
+</html>
 ```
 
 - Let's jump into the _gruntfile.js_ file, register the plugin:
-```javascript
-grunt.loadNpmTasks('grunt-processhtml');
+
+_gruntfile.js_
+
+```diff
+module.exports = function (grunt) {
+  grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
++ grunt.loadNpmTasks('grunt-processhtml');
 ```
 
 - Let's configure it.
-```javascript
-  grunt.initConfig({
-    ...
-    processhtml: {
-      dist: {
-        files: {
-          'dist/index.html': ['src/index.html']
-        }
+
+_gruntfile.js_
+
+```diff
+    uglify: {
+      build: {
+        files: [
+          {
+            './dist/app.min.js': './dist/app.min.js'
+          }
+        ]
       }
-    }    
+-    }
++    },
++    processhtml: {
++      dist: {
++        files: {
++          'dist/index.html': ['src/index.html']
++        }
++      }
++    }      
+  });
+
 ```
 
 - And add it to the build-prod process
-```javascript
-grunt.registerTask('build-prod', ['clean', 'concat', 'uglify:build', 'processhtml']);
-```
 
+```diff
+- grunt.registerTask('build-prod', ['clean', 'concat', 'uglify:build']);
++ grunt.registerTask('build-prod', ['clean', 'concat', 'uglify:build', 'processhtml']);
+```
 
 - Now we can test it and check that everything is working as expected
-```
-grunt build-prod
+
+```bash
+npm run build:prod
 ```
 
 
 - Finally, we can launch de site to test that everything is working as expected
 ```
-grunt web
+npm start
 ```
 
-## Result
+> Excercise: usually we want to execute a build then launch the web server, what about create a default
+task that would run both build + start on grunt and replace our package.json with that command.
 
-- In your project you can see dist folder
-
-![Image of dist folder and content](../99 Resources/02 Prod/dist_folder.png "dist folder")
-
-- the web running
-
-![Image of web running](../99 Resources/02 Prod/webrunning.png "web running")
+Hints: Check _grunt.registerTask('default', ...)_
