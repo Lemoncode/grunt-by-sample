@@ -38,10 +38,10 @@ This sample takes as starting point _00 Connect_.
 └─ package.json
 ```
 
-- Then let's install and configure _grunt-contrib-clean_ to clean folders.
+- Then let's install and configure _grunt-contrib-clean_ to clean folders and _grunt_contrib_copy_ to copy files.
 
   ```
-  npm install grunt-contrib-clean --save-dev
+  npm install grunt-contrib-clean grunt-contrib-copy --save-dev
   ```
   - (I) Let's add the config for the plugin:
 
@@ -153,11 +153,11 @@ grunt.registerTask('web', ['connect']);
 
 - Let's try both commands:
 
-```
+```bash
 npm run build
 ```
 
-```
+```bash
 npm start
 ```
 
@@ -191,13 +191,13 @@ function mySum(a, b) {
   - (I) Execute the `build-dev` task we've created.
 
   ```
-  grunt build-dev
+  npm run build
   ```
 
   - (II) Launch the `web` task to see the result.
 
   ```
-  grunt web
+  npm start
   ```
 
   You should end up seeing something like the figure below:
