@@ -1,0 +1,27 @@
+{
+  "name": "alerta",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "grunt web",
+    "build": "grunt build-prod",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "grunt": "^1.0.2",
+    "grunt-angular-templates": "^1.1.0",
+    "grunt-contrib-clean": "^1.1.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-connect": "^1.0.2",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-uglify": "^3.3.0",
+    "grunt-processhtml": "^0.4.1",
+    "lite-server": "^2.3.0"
+  },
+  "dependencies": {
+    "npm": "^6.0.0"
+  }
+}

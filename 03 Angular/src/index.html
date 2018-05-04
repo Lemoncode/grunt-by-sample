@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+    crossorigin="anonymous">
+</head>
+
+<body ng-app="mysample">
+  <div ng-controller="SampleCtrl">
+    <script type="text/ng-template" id="form-error-messages">
+      <div ng-message="required">Please inform the field</div>
+    </script>
+    <login-container/>
+  </div>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-messages/1.6.5/angular-messages.js"></script>
+  <!-- build:js app.min.js -->
+  <script src="./main.js"></script>
+  <script src="./login/loginContainer.js"></script>
+  <script src="./login/components/centerContent.js"></script>
+  <script src="./login/components/panel.js"></script>
+  <script src="./login/components/loginForm.js"></script>
+  <script src="./login/api/loginservice.js"></script>
+  <!-- /build -->
+</body>
+
+</html>

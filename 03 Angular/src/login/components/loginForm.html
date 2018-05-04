@@ -1,0 +1,34 @@
+<form role="form" name="loginForm">
+        <div class="form-group">
+            <label>Username or Email</label>
+            <input class="form-control" 
+                    style="border-radius:0px" 
+                    name="loginField" 
+                    ng-model="vm.loginInfo.user" 
+                    ng-required="{true}"/>
+            <div ng-messages="loginForm.loginField.$error"
+                    ng-show="loginForm.loginField.$touched || loginForm.$submitted"
+            >
+                <div ng-messages-include="form-error-messages">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Password
+                <a href="/sessions/forgot_password">(forgot password)</a>
+            </label>
+            <input type="password" 
+                    class="form-control" 
+                    name="passwordField" 
+                    style="border-radius:0px" 
+                    ng-model="vm.loginInfo.password" 
+                    ng-required="{true}"
+            />
+            <div ng-messages="loginForm.passwordField.$error"
+                ng-show="loginForm.passwordField.$touched || loginForm.$submitted"
+            >
+                <div ng-messages-include="form-error-messages">
+                </div>
+            </div>
+        </div>        
+    <button  class="btn btn-sm btn-default" ng-click="vm.doLogin({user: vm.loginInfo.user, password: vm.loginInfo.password})" >Sign in</button>
+</form>
