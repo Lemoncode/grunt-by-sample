@@ -6,6 +6,8 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-processhtml');
   grunt.loadNpmTasks('grunt-angular-templates');
+  grunt.loadNpmTasks('grunt-cache-breaker');
+  grunt.loadNpmTasks('grunt-babel');
 
   grunt.initConfig({
     connect: {
@@ -33,9 +35,9 @@ module.exports = function (grunt) {
         cwd: 'src',
         src: ['login/**/*.html'],
         dest: './dist/mysample-tpl.js',
-        options:  {
-          url:    function(url) { return '/' + url}
-        }        
+        options: {
+          url: function (url) { return '/' + url }
+        }
       }
     },
     copy: {
@@ -59,6 +61,17 @@ module.exports = function (grunt) {
         dest: './dist/app.min.js',
       }
     },
+    babel: {
+      options: {
+        sourceMap: true,
+        presets: ['@babel/preset-env']
+      },
+      dist: {
+        files: {
+          'dist/app.min.js': 'dist/app.min.js'
+        }
+      }
+    },
     uglify: {
       build: {
         files: [
@@ -74,11 +87,21 @@ module.exports = function (grunt) {
           'dist/index.html': ['src/index.html']
         }
       }
+    },
+    cachebreaker: {
+      dev: {
+        options: {
+          match: ['app.min.js'],
+        },
+        files: {
+          src: ['./dist/index.html']
+        }
+      }
     }
   });
 
   grunt.registerTask('web', ['connect']);
   grunt.registerTask('build-dev', ['clean', 'copy']);
-  grunt.registerTask('build-prod', ['clean:dist', 'ngtemplates', 'concat', 'uglify:build', 'processhtml', 'clean:tpl']);
+  grunt.registerTask('build-prod', ['clean:dist', 'ngtemplates', 'concat', 'babel','uglify:build', 'processhtml', 'clean:tpl', 'cachebreaker']);
   grunt.registerTask('default', ['build-dev', 'web']);
 };

@@ -330,20 +330,76 @@ _mninifiable_ friendly.
 1. We could do this in a single step (build prod + web).
 2. Unminified version is not working, we can check three steps for this:
    a. Include til the contact and add sourcemaps to allow seamlessly debugging.
+
+
+_gruntfile.js_ 
+
+```diff
+    concat: {
+      options: {
+        separator: ';',
++        sourceMap: true,
+      },
+```
+
    b. Add a task to copy all the _html_ files into the right folders.
    c. start directly from the root folder the web server.
 
-****
-- Now that we are generating an _app.min.js_ we can have cache issues:
+- Now that we are generating an _app.min.js_ we can have cache issues on the script side, let's
+add a cache breaker for each build:
 
-grunt.loadNpmTasks('grunt-cache-breaker');
+- Let's install _grunt_cache_breaker_
 
-- Enviroment variables.
+```bash
+npm install grunt-cache-breaker --save-dev
+```
+- Let's add it to our gruntfile:
 
-grunt.loadNpmTasks('grunt-file-creator');
+_gruntfile.js_
+
+```diff
+  grunt.loadNpmTasks('grunt-processhtml');
+  grunt.loadNpmTasks('grunt-angular-templates');
++ grunt.loadNpmTasks('grunt-cache-breaker');
+```
+
+- And let's add the cache breaking task dfor our app.min.js
+
+```diff
+    processhtml: {
+      dist: {
+        files: {
+          'dist/index.html': ['src/index.html']
+        }
+      }
+-    }
++    },
++    cachebreaker: {
++        dev: {
++            options: {
++                match: ['app.min.js'],
++                position: 'filename'
++            },
++            files: {
++                src: ['./dist/index.html']
++            }
++        }
++    }
+```
+
+- Let's add it to our set of build task
+
+```diff
+  grunt.registerTask('build-dev', ['clean', 'copy']);
+-  grunt.registerTask('build-prod', ['clean:dist', 'ngtemplates', 'concat', 'uglify:build', 'processhtml', 'clean:tpl']);
++  grunt.registerTask('build-prod', ['clean:dist', 'ngtemplates', 'concat', 'uglify:build', 'processhtml', 'clean:tpl', 'cachebreaker']);
+```
 
 # Excercise:
 
-A. Create a separate module and add it to the grunt build process (trick: module definition should 
+A. What about environemnt variables? e.g. root api urls, we can use something like:
+  https://github.com/travis-hilterbrand/grunt-file-creator
+
+B. Create a separate module and add it to the grunt build process (trick: module definition should 
 be made in a given folder root, controllers/services on a subfolder belonging to that parent folder)
 

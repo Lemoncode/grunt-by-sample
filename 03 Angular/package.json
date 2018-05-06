@@ -13,6 +13,7 @@
   "devDependencies": {
     "grunt": "^1.0.2",
     "grunt-angular-templates": "^1.1.0",
+    "grunt-cache-breaker": "^2.0.1",
     "grunt-contrib-clean": "^1.1.0",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-connect": "^1.0.2",
