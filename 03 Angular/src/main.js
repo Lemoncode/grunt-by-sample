@@ -1,4 +1,4 @@
-angular.module('mysample', ['ngMessages']).controller('SampleCtrl', function ($scope) {
+angular.module('mysample', ['ngMessages']).controller('SampleCtrl', ['$scope',function ($scope) {
   $scope.testBinding = "Bindings up and running !!";
 
   $scope.login = {
@@ -13,4 +13,4 @@ angular.module('mysample', ['ngMessages']).controller('SampleCtrl', function ($s
       console.log('LOGIN FAILED :-(');
     };    
   }
-});
+}]);

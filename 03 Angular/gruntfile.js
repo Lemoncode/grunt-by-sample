@@ -79,6 +79,6 @@ module.exports = function (grunt) {
 
   grunt.registerTask('web', ['connect']);
   grunt.registerTask('build-dev', ['clean', 'copy']);
-  grunt.registerTask('build-prod', ['clean:dist', 'ngtemplates', 'concat', /*'uglify:build',*/ 'processhtml', 'clean:tpl']);
+  grunt.registerTask('build-prod', ['clean:dist', 'ngtemplates', 'concat', 'uglify:build', 'processhtml', 'clean:tpl']);
   grunt.registerTask('default', ['build-dev', 'web']);
 };

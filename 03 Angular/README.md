@@ -301,9 +301,37 @@ _package.json_
   },
 ```
 
+- If we add the uglified version the app is not working we are missing some update on the code to make
+_mninifiable_ friendly.
+
+```diff
+-angular.module('mysample', ['ngMessages']).controller('SampleCtrl', function ($scope) {
++angular.module('mysample', ['ngMessages']).controller('SampleCtrl', ['$scope',function ($scope) {
+
+  $scope.testBinding = "Bindings up and running !!";
+
+  $scope.login = {
+    user: '',
+    password: '',
+  };
+
+  $scope.onLogin = function() {
+    if ($scope.login.user === 'admin' && $scope.login.password === 'test') {
+      console.log('LOGIN SUCCEEDED');
+    } else {
+      console.log('LOGIN FAILED :-(');
+    };    
+  }  
+-});
++}]);
+```
+
 > As an excercise
 1. We could do this in a single step (build prod + web).
-2. Fix the development version (no min), missing copy file etc.
+2. Unminified version is not working, we can check three steps for this:
+   a. Include til the contact and add sourcemaps to allow seamlessly debugging.
+   b. Add a task to copy all the _html_ files into the right folders.
+   c. start directly from the root folder the web server.
 
 ****
 - Now that we are generating an _app.min.js_ we can have cache issues:
